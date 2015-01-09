@@ -41,18 +41,15 @@
             </div>
           </div>
         </div>
-      </form>
-    </div>
 
-    <div class="row">
-      <div class="col-sm-offset-2 col-sm-8 row">
-        <div class="col-sm-4 text-right">
-          Age
+        <div class="form-group">
+          <label for="age" class="col-sm-4 control-label">Age</label>
+          <div class="col-sm-8 text-center">
+            {{birthday | age:showYears:showMonths:showWeeks:showDays}}
+          </div>
         </div>
-        <div class="col-sm-8 text-left">
-          {{birthday | age:showYears:showMonths:showWeeks:showDays}}
-        </div>
-      </div>
+
+      </form>
     </div>
 
   </div>
