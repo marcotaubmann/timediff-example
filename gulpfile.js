@@ -13,6 +13,7 @@ var bowerFiles = require('main-bower-files');
 var browserSync = require('browser-sync');
 var reload = browserSync.reload;
 var sizereport = require('gulp-sizereport');
+var karma = require('karma').server;
 
 gulp.task('clean', function (callback) {
   del([
@@ -24,7 +25,7 @@ gulp.task('clean', function (callback) {
 var appFileStream;
 gulp.task('scripts', function (callback) {
   appFileStream = gulp
-    .src('app/**/*.js')
+    .src(['app/**/*.js', '!app/**/*spec.js'])
     .pipe(jshint())
     .pipe(jshint.reporter('default'))
     .pipe(concat('app.js'))
@@ -79,7 +80,7 @@ gulp.task('serve', ['build'], function (callback) {
 });
 
 gulp.task('watch', ['serve'], function () {
-  gulp.watch(['app/**/*.js'], ['scripts']);
+  gulp.watch(['app/**/*.js', '!app/**/*spec.js'], ['scripts']);
   gulp.watch(['app/**/*.css'], ['styles']);
   gulp.watch(['bower.json'], ['index']);
   gulp.watch(['app/index.html'], ['index']);
@@ -110,3 +111,15 @@ gulp.task('dist', ['build'], function () {
     .pipe(sizereport({gzip: true}));
 });
 
+gulp.task('test', function (callback) {
+  karma.start({
+    configFile: __dirname + '/karma.conf.js',
+    singleRun: true
+  }, callback);
+});
+
+gulp.task('tdd', function (callback) {
+  karma.start({
+    configFile: __dirname + '/karma.conf.js',
+  }, callback);
+});
