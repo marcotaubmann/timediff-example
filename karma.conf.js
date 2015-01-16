@@ -18,6 +18,7 @@ module.exports = function(config) {
       'bower_components/angular/angular.js',
       'node_modules/angular-mocks/angular-mocks.js',
       'bower_components/moment/moment.js',
+      'bower_components/timediff/timediff.js',
       'app/**/*.js',
       'app/**/*spec.js'
     ],

@@ -31,16 +31,16 @@
           <div class="col-sm-8">
             <div class="btn-group btn-group-justified" id="units">
                 <div class="btn-group">
-                  <button type="button" class="btn" ng-class="showYears?'btn-success':'btn-default'" ng-click="showYears=!showYears">Years</button>
+                  <button type="button" class="btn" ng-class="showYears?'btn-success':'btn-default'" ng-click="toggle('years')">Years</button>
                 </div>
                 <div class="btn-group">
-                  <button type="button" class="btn" ng-class="showMonths?'btn-success':'btn-default'" ng-click="showMonths=!showMonths">Months</button>
+                  <button type="button" class="btn" ng-class="showMonths?'btn-success':'btn-default'" ng-click="toggle('months')">Months</button>
                 </div>
                 <div class="btn-group">
-                  <button type="button" class="btn" ng-class="showWeeks?'btn-success':'btn-default'" ng-click="showWeeks=!showWeeks">Weeks</button>
+                  <button type="button" class="btn" ng-class="showWeeks?'btn-success':'btn-default'" ng-click="toggle('weeks')">Weeks</button>
                 </div>
                 <div class="btn-group">
-                  <button type="button" class="btn" ng-class="showDays?'btn-success':'btn-default'" ng-click="showDays=!showDays">Days</button>
+                  <button type="button" class="btn" ng-class="showDays?'btn-success':'btn-default'" ng-click="toggle('days')">Days</button>
                 </div>
             </div>
           </div>
@@ -49,7 +49,7 @@
         <div class="form-group">
           <label for="age" class="col-sm-4 control-label">Age</label>
           <div class="col-sm-8 text-center">
-            {{birthday | age:showYears:showMonths:showWeeks:showDays}}
+            <b>{{birthday | age:showYears:showMonths:showWeeks:showDays}}</b>
           </div>
         </div>
 
