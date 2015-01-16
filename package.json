@@ -1,13 +1,13 @@
 {
-  "name": "age-format",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.html",
+  "name": "timediff-example-app",
+  "version": "0.0.0",
+  "description": "Example application using the timediff library.",
+  "main": "app/index.html",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "gulp test"
   },
   "author": "Marco Taubmann",
-  "license": "private",
+  "license": "MIT",
   "devDependencies": {
     "angular-mocks": "^1.3.8",
     "browser-sync": "^1.8.3",

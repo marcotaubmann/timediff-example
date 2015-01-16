@@ -1,6 +1,6 @@
-var app = angular.module('age-format', []);
+var app = angular.module('timediff-example', []);
 
-app.filter('age', function () {
+app.filter('timediff', function () {
   return function (date, showYears, showMonths, showWeeks, showDays) {
     var units =  timediff( date, new Date(), {
       units: {
@@ -20,7 +20,7 @@ app.filter('age', function () {
   };
 });
 
-app.controller('AgeController', ['$scope', function ($scope) {
+app.controller('ExampleController', ['$scope', function ($scope) {
   $scope.birthday = new Date();
   $scope.showYears = true;
   $scope.showMonths = true;

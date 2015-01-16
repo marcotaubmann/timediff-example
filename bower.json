@@ -1,11 +1,10 @@
 {
-  "name": "age-format",
-  "version": "0.0.0",
+  "name": "timediff-example-app",
   "authors": [
     "Marco Taubmann <marco.taubmann@gmail.com>"
   ],
-  "main": "index.html",
-  "license": "private",
+  "main": "app/index.html",
+  "license": "MIT",
   "private": true,
   "ignore": [
     "**/.*",
