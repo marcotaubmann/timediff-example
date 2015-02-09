@@ -16,6 +16,8 @@ var reload = browserSync.reload;
 var sizereport = require('gulp-sizereport');
 var karma = require('karma').server;
 var streamqueue = require('streamqueue');
+var runSequence = require('run-sequence');
+var ghPages = require('gulp-gh-pages');
 
 gulp.task('clean', function (callback) {
   del([
@@ -129,4 +131,11 @@ gulp.task('tdd', function (callback) {
   karma.start({
     configFile: __dirname + '/karma.conf.js',
   }, callback);
+});
+
+gulp.task('gh-pages', function () {
+  runSequence('clean', 'dist');
+  return gulp
+    .src(['dist/**/*'])
+    .pipe(ghPages());
 });
