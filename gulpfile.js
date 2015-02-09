@@ -9,11 +9,13 @@ var minifyCss = require('gulp-minify-css');
 var minifyHtml = require('gulp-minify-html');
 var at = require('gulp-asset-transform');
 var gulpFilter = require('gulp-filter');
+var templateCache = require('gulp-angular-templatecache');
 var bowerFiles = require('main-bower-files');
 var browserSync = require('browser-sync');
 var reload = browserSync.reload;
 var sizereport = require('gulp-sizereport');
 var karma = require('karma').server;
+var streamqueue = require('streamqueue');
 
 gulp.task('clean', function (callback) {
   del([
@@ -24,10 +26,15 @@ gulp.task('clean', function (callback) {
 
 var appFileStream;
 gulp.task('scripts', function (callback) {
-  appFileStream = gulp
-    .src(['app/**/*.js', '!app/**/*spec.js'])
-    .pipe(jshint())
-    .pipe(jshint.reporter('default'))
+  appFileStream = streamqueue(
+    {objectMode: true},
+    gulp
+      .src(['app/**/*.js', '!app/**/*spec.js'])
+      .pipe(jshint())
+      .pipe(jshint.reporter('default')),
+    gulp.src(['app/**/*.html', '!app/index.html'])
+      .pipe(templateCache({module: 'timediff-example'}))
+  )
     .pipe(concat('app.js'))
     .pipe(gulp.dest('build'));
   callback();
@@ -80,7 +87,7 @@ gulp.task('serve', ['build'], function (callback) {
 });
 
 gulp.task('watch', ['serve'], function () {
-  gulp.watch(['app/**/*.js', '!app/**/*spec.js'], ['scripts']);
+  gulp.watch(['app/**/*.js', '!app/**/*spec.js', 'app/**/*.html', '!app/index.html'], ['scripts']);
   gulp.watch(['app/**/*.css'], ['styles']);
   gulp.watch(['bower.json'], ['index']);
   gulp.watch(['app/index.html'], ['index']);

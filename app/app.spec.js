@@ -1,53 +1,86 @@
 describe('timediff-example module', function () {
   beforeEach(module('timediff-example'));
 
-  describe('timediff filter', function () {
-
-    it('should convert the same day to zero string', inject(function (timediffFilter) {
-      var result = timediffFilter(new Date(), new Date(), {units: {years: true, months: true, weeks: true, days: true}});
-      expect(result).toBe('0y 0m 0w 0d');
+  describe('toArray filter', function () {
+    it('should convert an object to an array of objects', inject(function (toArrayFilter) {
+      var obj = {name: 'Tester', id: 21};
+      var arr = toArrayFilter(obj);
+      expect(arr).toEqual([
+        {key: 'name', value: 'Tester'},
+        {key: 'id', value: 21}
+      ]);
     }));
+  });
 
-    it('should convert 20 days to "20d"', inject(function (timediffFilter) {
-      var result = timediffFilter('2015-01-01', '2015-01-21', {units: {days: true}});
-      expect(result).toBe('20d');
+  describe('uppercase filter', function () {
+
+    it('should make the first letter of each word in a string uppercase', inject(function (uppercaseFilter) {
+      var result = uppercaseFilter('hello my friend');
+      expect(result).toBe('Hello My Friend');
     }));
 
   });
 
   describe('ExampleController', function () {
-    var $controller;
+    var $scope;
+    var $interval;
+    var controller;
 
-    beforeEach(inject(function (_$controller_) {
-      $controller = _$controller_;
+    function hasTrueKey (object) {
+      for (var key in object) {
+        if (object[key]) {
+          return true;
+        }
+      }
+      return false;
+    };
+
+    function hasOnlyTrueKeys (object) {
+      for (var key in object) {
+        if (!object[key]) {
+          return false;
+        }
+      }
+      return true;
+    }
+
+    beforeEach(inject(function (_$rootScope_, _$controller_, _$interval_) {
+      $scope = _$rootScope_.$new();
+      $interval = _$interval_;
+      controller = _$controller_('ExampleController', {
+        $scope: $scope,
+        $interval: $interval
+      });
+      spyOn($scope, 'updateDiff');
     }));
 
-    it('should initialy have all of years, months, weeks and days active', function () {
-      var $scope = {};
-      var controller = $controller('ExampleController', {$scope: $scope});
-      expect( $scope.show.years && $scope.show.months && $scope.show.weeks && $scope.show.days).toBe(true);
+    it('should initialy have all possible units active', function () {
+      expect(hasOnlyTrueKeys($scope.diffOpts.units)).toBe(true);
     });
 
-    it('should have at least one of years, months, weeks or days active', function () {
-      var $scope = {};
-      var controller = $controller('ExampleController', {$scope: $scope});
+    it('should have at least one of the units active', function () {
       $scope.toggle('years');
       $scope.toggle('months');
       $scope.toggle('weeks');
       $scope.toggle('days');
-      expect( $scope.show.years || $scope.show.months || $scope.show.weeks || $scope.show.days).toBe(true);
+      $scope.toggle('hours');
+      $scope.toggle('minutes');
+      $scope.toggle('seconds');
+      $scope.toggle('milliseconds');
+      expect(hasTrueKey($scope.diffOpts.units)).toBe(true);
       $scope.toggle('weeks');
-      $scope.toggle('days');
+      $scope.toggle('milliseconds');
       $scope.toggle('weeks');
-      expect( $scope.show.years || $scope.show.months || $scope.show.weeks || $scope.show.days).toBe(true);
+      expect(hasTrueKey($scope.diffOpts.units)).toBe(true);
       $scope.toggle('months');
       $scope.toggle('weeks');
       $scope.toggle('months');
-      expect( $scope.show.years || $scope.show.months || $scope.show.weeks || $scope.show.days).toBe(true);
+      expect(hasTrueKey($scope.diffOpts.units)).toBe(true);
       $scope.toggle('years');
       $scope.toggle('months');
       $scope.toggle('years');
-      expect( $scope.show.years || $scope.show.months || $scope.show.weeks || $scope.show.days).toBe(true);
+      expect(hasTrueKey($scope.diffOpts.units)).toBe(true);
     });
+
   });
 });

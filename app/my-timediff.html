@@ -1,0 +1,8 @@
+<b ng-if="timediff==='undefined'">undefined</b>
+<table ng-if="timediff!=='undefined'" class="table table-striped table-condensed">
+  <tr ng-repeat="unit in timediff track by $index">
+    <td>{{unit.key | uppercase}}</td>
+    <td>{{unit.value}}</td>
+  </tr>
+</table>
+
